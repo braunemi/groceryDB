@@ -235,12 +235,51 @@ COMMIT;
 < One query (per table) of the form: SELECT * FROM table; in order to print out your
 database >
 --
-< The SQL queries>. Include the following for each query:
-1. A comment line stating the query number and the feature(s) it demonstrates
-(e.g. – Q25 – correlated subquery).
-2. A comment line stating the query in English.
-3. The SQL code for the query.
---
+-- Q1 - JOINING 4 RELATIONS
+/*
+For every employee who works a job that is a part of a department that sells 'Ramon Noodle Soup': Find the employees eID and eLast.
+*/
+SELECT E.eID, E.eLast
+FROM Employee E, Job J, Department D, Product P
+WHERE E.e_jID = J.jID AND
+      J.j_dID = D.dID AND 
+      D.dID = P.p_dID AND 
+      P.pName = 'Ramon Noodle Soup'
+ORDER BY E.eLast;
+----------------
+-- Q2 - SELF-JOIN
+/*
+For every employee who has a salary that is different than their supervisor's salary: Find the employees eID, eLast, and the name of their supervisor.
+*/
+SELECT E1.eID, E1.eLast, E1.s_eID
+FROM Employee E1, Employee E2
+WHERE E1.s_eID IS NOT NULL AND
+      E1.s_eID = E2.eID AND 
+      E1.eSalary <> E2.eSalary
+ORDER BY E1.eLast;
+----------------
+-- Q3 - Intersect query
+/*
+For every employee who has a supervisor and works for the Salesfloor department: Find the employees eID, eLast.
+*/
+SELECT eID, eLast
+FROM Employee 
+WHERE s_eID IS NOT NULL
+INTERSECT
+SELECT eID, eLast
+FROM Employee E, Job J, Department D
+WHERE E.e_jID = J.jID AND
+      J.j_dID = D.dID AND
+      D.dName LIKE 'Salesfloor';
+----------------
+-- Q4 Max query
+/*
+Find the max salary of all employees
+*/
+SELECT MAX(eSalary)
+FROM Employee;
+----------------
+
 < The insert/delete/update statements to test the enforcement of ICs >
 Include the following items for every IC that you test (Important: see the next section titled
 “Submit a final report” regarding which ICs to test).
