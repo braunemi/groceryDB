@@ -92,7 +92,7 @@ CONSTRAINT sIC01 PRIMARY KEY (sid)
 CREATE TABLE Product
 (
 pID 		INTEGER,
-pName 		VARCHAR2(20)	NOT NULL,
+pName 		VARCHAR2(30)	NOT NULL,
 pInventory 	INTEGER 	NOT NULL,
 pPrice 		NUMBER(5,2) 	NOT NULL,
 p_dID 		INTEGER 	NOT NULL,
@@ -107,8 +107,7 @@ CONSTRAINT pIC02 FOREIGN KEY (p_dID)
 CONSTRAINT pIC03 FOREIGN KEY (p_sID) 
 	REFERENCES Supplier(sID)
 	ON DELETE CASCADE
-	DEFERRABLE INITIALLY DEFERRED,
-CONSTRAINT pIC04 CHECK (sDate LIKE '__/__/__')
+	DEFERRABLE INITIALLY DEFERRED
 );
 --
 CREATE TABLE Transaction
@@ -128,7 +127,7 @@ CONSTRAINT tIC03 CHECK (tTimestamp LIKE '__/__/__ __:__:__')
 CREATE TABLE MPhone
 (
 m_mID 		INTEGER,
-mPhone 		CHAR(12),
+mPhone 		CHAR(14),
 --
 CONSTRAINT mpIC01 PRIMARY KEY (m_mID, mPhone),
 CONSTRAINT mpIC02 FOREIGN KEY (m_mID) 
@@ -141,7 +140,7 @@ CONSTRAINT mpIC03 CHECK (mPhone LIKE '(___)-___-____')
 CREATE TABLE EPhone
 (
 e_mID 		INTEGER,
-ePhone 		CHAR(12),
+ePhone 		CHAR(14),
 --
 CONSTRAINT epIC01 PRIMARY KEY (e_mID, ePhone),
 CONSTRAINT epIC02 FOREIGN KEY (e_mID) 
@@ -198,13 +197,13 @@ INSERT INTO Supplier VALUES ('10', 'Gordons Food Service');
 INSERT INTO Supplier VALUES ('11', 'Meijers');
 INSERT INTO Supplier VALUES ('12', 'Best Buy');
 INSERT INTO Supplier VALUES ('13', 'Sparrow Health');
-INSERT INTO Supplier VALUES ('14', 'B&H Photo Video');
+INSERT INTO Supplier VALUES ('14', 'BnH Photo Video');
 --
-INSERT INTO Product VALUES ('10', 'Charmins Toilet Paper', 100, 5.00, '10', '11', '10/10/18'); 
-INSERT INTO Product VALUES ('11', 'Ramon Noodle Soup', 50, 2.00, '10', '10', '10/10/18'); 
-INSERT INTO Product VALUES ('12', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', '10/10/18'); 
-INSERT INTO Product VALUES ('13', 'Asus Laptop', 20, 500.00, '10', '12', '10/10/18'); 
-INSERT INTO Product VALUES ('14', 'Fresh Chicken Roast', 30, 5.00, '13', '10', '10/10/18'); 
+INSERT INTO Product VALUES ('10', 'Charmins Toilet Paper', 100, 5.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY')); 
+INSERT INTO Product VALUES ('11', 'Ramon Noodle Soup', 50, 2.00, '10', '10', TO_DATE('10/10/18', 'MM/DD/YY')); 
+INSERT INTO Product VALUES ('12', 'Light Bulbs (4 pck.)', 40, 10.00, '10', '11', TO_DATE('10/10/18', 'MM/DD/YY')); 
+INSERT INTO Product VALUES ('13', 'Asus Laptop', 20, 500.00, '10', '12', TO_DATE('10/10/18', 'MM/DD/YY')); 
+INSERT INTO Product VALUES ('14', 'Fresh Chicken Roast', 30, 5.00, '13', '10', TO_DATE('10/10/18', 'MM/DD/YY')); 
 --
 INSERT INTO Transaction VALUES ('10', '10/12/18 08:12:50', 10);
 INSERT INTO Transaction VALUES ('11', '10/12/18 09:00:21', 40);
@@ -217,6 +216,18 @@ INSERT INTO MPhone VALUES ('11', '(616)-110-1212');
 INSERT INTO MPhone VALUES ('12', '(616)-120-1212');
 INSERT INTO MPhone VALUES ('13', '(616)-130-1212');
 INSERT INTO MPhone VALUES ('14', '(616)-140-1212');
+--
+INSERT INTO EPhone VALUES ('10', '(616)-000-0000');
+INSERT INTO EPhone VALUES ('11', '(616)-001-0101');
+INSERT INTO EPhone VALUES ('12', '(616)-002-0202');
+INSERT INTO EPhone VALUES ('13', '(616)-003-0303');
+INSERT INTO EPhone VALUES ('14', '(616)-004-0404');
+--
+INSERT INTO Prod_Trans VALUES ('10', '10/12/18 08:12:50', '10');
+INSERT INTO Prod_Trans VALUES ('11', '10/12/18 09:00:21', '11');
+INSERT INTO Prod_Trans VALUES ('12', '10/12/18 10:14:03', '12');
+INSERT INTO Prod_Trans VALUES ('13', '10/12/18 10:53:42', '13');
+INSERT INTO Prod_Trans VALUES ('14', '10/12/18 12:38:12', '14');
 
 SET FEEDBACK ON
 COMMIT;
